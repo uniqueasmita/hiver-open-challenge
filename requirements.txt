@@ -1,0 +1,9 @@
+fastapi
+uvicorn
+pandas
+scikit-learn
+sentence-transformers
+nltk
+rouge-score
+google-generativeai
+python-dotenv
