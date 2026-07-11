@@ -2,62 +2,81 @@
 
 ## Overview
 
-This project builds an AI-powered email response suggestion system using Google's Gemini LLM.
+This project is an AI-powered email reply suggestion system built as part of the Hiver Open Challenge.
 
-The system:
+The application generates professional responses for incoming customer support emails using Google's Gemini LLM. It is grounded with a synthetic customer support dataset and evaluates the quality of every generated response using multiple NLP evaluation metrics.
 
-- Generates intelligent email replies.
-- Uses a synthetic customer support email dataset.
-- Evaluates generated responses using multiple NLP metrics.
+## Features
+
+- AI-powered email response generation using Google Gemini
+- Synthetic customer support email dataset
+- FastAPI backend
+- Simple HTML web interface
+- Automatic response evaluation
+- JSON API for integration
+- End-to-end runnable project
 
 ---
 
 ## Dataset
 
-The dataset contains synthetic customer support emails paired with human-written replies.
+The project uses a manually created synthetic dataset of customer support emails and their corresponding responses.
 
-Categories include:
+The dataset covers common customer support scenarios, including:
 
-- Order delay
-- Refund
+- Order delays
+- Refund requests
 - Password reset
+- Billing issues
 - Subscription cancellation
-- Billing
-- Shipping
-- Account issues
-- Product information
+- Shipping questions
 - Business hours
+- Account access
+- Product information
 - Technical support
 
-The dataset was manually created to represent common customer support conversations.
+The dataset was intentionally designed to represent realistic customer support conversations while remaining simple, consistent, and suitable for evaluating AI-generated responses.
 
 ---
 
 ## Response Generation
 
-The project uses:
+The system uses Google's Gemini LLM to generate responses.
 
-- Google Gemini API
-- Prompt Engineering
-- Dataset grounding
+### Workflow
 
-Incoming emails are sent to Gemini with context from the dataset to generate professional replies.
+1. User enters an incoming email.
+2. The system searches the dataset for a similar support example.
+3. Relevant context is provided to Gemini through prompt engineering.
+4. Gemini generates a professional customer support reply.
+5. The generated reply is evaluated against the expected response from the dataset.
+
+This approach combines dataset grounding with a Large Language Model instead of using a traditional machine learning classifier.
 
 ---
 
-## Evaluation
+## Evaluation Method
 
-Each generated response is evaluated using:
+Each generated response is evaluated using multiple NLP metrics.
 
-- Semantic Similarity
-- ROUGE Score
-- BLEU-style score
-- Weighted Overall Score
+### Metrics Used
 
+- **Semantic Similarity** (Sentence Transformers)
+- **BLEU Score**
+- **ROUGE Score**
+
+### Overall Score
+
+The overall quality score is calculated as:
+
+```
 Overall Score =
-50% Semantic Similarity +
-30% ROUGE +
-20% BLEU
+50% Semantic Similarity
++ 30% ROUGE
++ 20% BLEU
+```
+
+These metrics provide both semantic and lexical evaluation instead of relying on exact text matching.
 
 ---
 
@@ -65,42 +84,110 @@ Overall Score =
 
 - Python
 - FastAPI
-- Google Gemini
-- SentenceTransformers
+- HTML / JavaScript
+- Google Gemini API
+- Sentence Transformers
 - scikit-learn
 - ROUGE
+- Pandas
 
 ---
 
-## How to Run
+## Project Structure
 
-Install dependencies
+```
+hiver-open-challenge/
+│
+├── app.py
+├── generator.py
+├── evaluator.py
+├── requirements.txt
+├── README.md
+├── templates/
+│   └── index.html
+└── data/
+    └── dataset.csv
+```
+
+---
+
+## Installation
+
+Install the required dependencies:
 
 ```bash
 pip install -r requirements.txt
 ```
 
-Run server
+---
+
+## Run the Project
+
+Start the FastAPI server:
 
 ```bash
 uvicorn app:app --reload
 ```
 
-Open
+Open the application in your browser:
 
 ```
-http://127.0.0.1:8000/docs
+http://127.0.0.1:8000
 ```
 
-Test using any email query.
+The application provides a simple web interface where users can:
+
+- Enter an email
+- Generate an AI response
+- View evaluation metrics
+- See the overall quality score
+
+---
+
+## API Endpoint
+
+### Generate Reply
+
+**POST**
+
+```
+/generate
+```
+
+Example:
+
+```
+POST /generate?email=I forgot my password.
+```
+
+The API returns:
+
+- Generated Reply
+- Expected Reply
+- Semantic Similarity
+- BLEU Score
+- ROUGE Score
+- Overall Score
 
 ---
 
 ## AI Tools Used
 
-- Google Gemini
-- ChatGPT
+This project was developed using:
+
+- Google Gemini API
+- ChatGPT (for development assistance)
 - FastAPI
-- SentenceTransformers
+- Sentence Transformers
 
 ---
+
+## Future Improvements
+
+- Retrieval-Augmented Generation (RAG)
+- Larger real-world support email dataset
+- Conversation history support
+- Email intent classification
+- Response tone customization
+- User authentication
+- Dashboard for evaluation analytics

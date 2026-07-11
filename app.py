@@ -1,3 +1,8 @@
+from fastapi import Request
+from fastapi.responses import HTMLResponse
+from fastapi.templating import Jinja2Templates
+
+
 from fastapi import FastAPI
 import pandas as pd
 
@@ -5,16 +10,16 @@ from generator import generate_reply
 from evaluator import evaluate
 
 app = FastAPI()
-
+templates = Jinja2Templates(directory="templates")
 dataset = pd.read_csv("data/dataset.csv")
 
 
-@app.get("/")
-def home():
-
-    return {
-        "message":"Hiver AI Email Suggestion System"
-    }
+@app.get("/", response_class=HTMLResponse)
+def home(request: Request):
+    return templates.TemplateResponse(
+        request=request,
+        name="index.html"
+    )
 
 
 @app.post("/generate")
